@@ -2,13 +2,14 @@
   "name": "express-hello-world",
   "version": "1.0.0",
   "description": "Express Hello World on Render",
-  "main": "src/index.js",
+  "main": "server/index.js",
   "repository": "https://github.com/render-examples/express-hello-world",
   "author": "Render Developers",
   "license": "MIT",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js",
+    "build": "npm install prefix --client && npm run build --prefix client && node index.js prefix --server"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
