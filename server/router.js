@@ -19,7 +19,4 @@ router.get("/users", (req, res) => {});
 // GET user by ???
 router.get("/users/:id", (req, res) => {});
 
-// POST new user
-router.post("/users", (req, res) => {});
-
 module.exports = router;
