@@ -2,15 +2,19 @@ module.exports.validateFormData = (req, res, next) => {
   const { username, email, password } = req.body;
 
   if (username && email && password) {
-    next();
-  } else {
-    res.statusCode = 400;
-    res.json({
-      message: "400 | Bad Request",
-      detail:
-        "One or more required parameters were not provided by the request",
-    });
+    const isExactlyFourDigits = /^\d{4}$/.test(parseInt(password));
+    if (isExactlyFourDigits) {
+      next();
+      return;
+    }
   }
+
+  res.statusCode = 400;
+  res.json({
+    message: "400 | Bad Request",
+    detail:
+      "One or more required parameters were not provided or properly formatted by the request.",
+  });
 };
 
 module.exports.validateLoginData = (req, res, next) => {
