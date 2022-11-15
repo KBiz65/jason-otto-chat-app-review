@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { client } = require("./modules/db");
-const { validateMessage } = require("./modules/util");
+const { validateMessage, validateId } = require("./modules/util");
 
 // GET all messages
 router.get("/messages", async (req, res) => {
@@ -41,10 +41,23 @@ router.post("/messages", validateMessage, async (req, res) => {
 });
 
 // GET user by ID
-router.get("/users/:id", (req, res) => {
-  // todo: build the query with the given id
-  // todo: run the query
-  // todo: return the user
+router.get("/users/:user_id", validateId, async (req, res) => {
+  const { user_id } = req.params;
+
+  const query = {
+    name: "get-user-by-id",
+    text: "SELECT * FROM users WHERE user_id=$1",
+    values: [user_id],
+  };
+
+  try {
+    const queryRes = await client.query(query);
+    res.statusCode = 200;
+    res.json({ message: "200 | OK", data: queryRes.rows });
+  } catch (err) {
+    res.statusCode = 500;
+    res.json({ message: "500 | Internal Server Error" });
+  }
 });
 
 module.exports = router;

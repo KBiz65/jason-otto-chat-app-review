@@ -45,3 +45,18 @@ module.exports.validateMessage = (req, res, next) => {
       "One or more required parameters were not provided or properly formatted by the request.",
   });
 };
+
+module.exports.validateId = (req, res, next) => {
+  const { user_id } = req.params;
+
+  if (Number.isInteger(parseInt(user_id))) {
+    next();
+    return;
+  }
+  res.statusCode = 400;
+  res.json({
+    message: "400 | Bad Request",
+    detail:
+      "One or more required parameters were not provided or properly formatted by the request.",
+  });
+};
