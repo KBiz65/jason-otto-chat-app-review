@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const { protect } = require("./modules/auth");
+const { validateMessage, validateId } = require("./modules/validate");
 const { getAllMessages, createNewMessage } = require("./handlers/messages");
 const { getUserById } = require("./handlers/users");
-const { validateMessage, validateId } = require("./modules/validate");
+
+router.get("/users/:user_id", validateId, getUserById);
+router.post("/users", validateFormData, createNewUser);
 
 router.get("/messages", getAllMessages);
-router.post("/messages", validateMessage, createNewMessage);
-router.get("/users/:user_id", validateId, getUserById);
+router.post("/messages", [validateMessage, protect], createNewMessage);
 
 module.exports = router;
