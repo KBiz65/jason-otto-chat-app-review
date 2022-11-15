@@ -7,7 +7,7 @@ const {
   validateFormData,
 } = require("./modules/validate");
 const { getAllMessages, createNewMessage } = require("./handlers/messages");
-const { getUserById } = require("./handlers/users");
+const { getUserById, createNewUser } = require("./handlers/users");
 
 router.get("/users/:user_id", validateId, getUserById);
 router.post("/users", validateFormData, createNewUser);
