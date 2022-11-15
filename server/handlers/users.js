@@ -1,4 +1,4 @@
-const { client } = require("../modules/db");
+const { client, preparedStmts } = require("../modules/db");
 const {
   createJWT,
   comparePasswords,
@@ -7,14 +7,14 @@ const {
 
 module.exports.createNewUser = async (req, res) => {
   const { username, email, password } = req.body;
-
   const passwordHash = await hashPassword(password);
-  const timestamp = new Date();
-  const query = {
-    name: "new-user",
-    text: "INSERT INTO users (username, email, password, created_on) VALUES ($1, $2, $3, $4) RETURNING user_id, username",
-    values: [username, email, passwordHash, timestamp],
+  const params = {
+    username,
+    email,
+    passwordHash,
+    timestamp: new Date(),
   };
+  const query = preparedStmts.createNewUser(params);
 
   try {
     const queryRes = await client.query(query);
@@ -29,13 +29,23 @@ module.exports.createNewUser = async (req, res) => {
   }
 };
 
+module.exports.getUserById = async (req, res) => {
+  const { user_id } = req.params;
+  const query = preparedStmts.getUserById(user_id);
+
+  try {
+    const queryRes = await client.query(query);
+    res.statusCode = 200;
+    res.json({ message: "200 | OK", data: queryRes.rows });
+  } catch (err) {
+    res.statusCode = 500;
+    res.json({ message: "500 | Internal Server Error" });
+  }
+};
+
 module.exports.signIn = async (req, res) => {
   const { username, password } = req.body;
-  const query = {
-    name: "get-user",
-    text: "SELECT * FROM users WHERE username=$1",
-    values: [username],
-  };
+  const query = preparedStmts.getUserByUsername(username);
 
   try {
     const queryRes = await client.query(query);
@@ -47,7 +57,6 @@ module.exports.signIn = async (req, res) => {
         user_id: user.user_id,
         password: user.password,
       });
-
       res.statusCode = 200;
       res.json({ message: "200 | OK", token });
     } else {

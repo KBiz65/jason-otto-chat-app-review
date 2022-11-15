@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const router = require("./router");
 const { protect } = require("./modules/auth");
-const { validateFormData, validateLoginData } = require("./modules/util");
+const { validateFormData, validateLoginData } = require("./modules/validate");
 const { createNewUser, signIn } = require("./handlers/users");
 
 app.use(morgan("dev")); // logging

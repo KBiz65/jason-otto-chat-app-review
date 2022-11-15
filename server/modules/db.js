@@ -8,11 +8,44 @@ const client = new Client({
   },
 });
 client.connect();
-
 module.exports.client = client;
 
-// const query = {
-//   // give the query a unique name
-//   name: "create-users-table",
-//   text: "CREATE TABLE users(user_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, username VARCHAR ( 50 ) UNIQUE NOT NULL, password VARCHAR ( 50 ) NOT NULL, email VARCHAR ( 255 ) UNIQUE NOT NULL, created_on TIMESTAMP NOT NULL, last_login TIMESTAMP)",
-// };
+module.exports.preparedStmts = {
+  getAllMessages: () => {
+    return {
+      name: "get-all-messages",
+      text: "SELECT * FROM messages ORDER BY created_on ASC",
+    };
+  },
+  createNewMessage: (params) => {
+    const { author_id, text_content, timestamp } = params;
+    return {
+      name: "new-message",
+      text: "INSERT INTO messages (author_id, text_content, created_on) VALUES ($1, $2, $3)",
+      values: [author_id, text_content, timestamp],
+    };
+  },
+  getUserById: (user_id) => {
+    return {
+      name: "get-user-by-id",
+      text: "SELECT * FROM users WHERE user_id=$1",
+      values: [user_id],
+    };
+  },
+  getUserByUsername: (username) => {
+    return {
+      name: "get-user",
+      text: "SELECT * FROM users WHERE username=$1",
+      values: [username],
+    };
+  },
+  createNewUser: (params) => {
+    const { username, email, passwordHash, timestamp } = params;
+
+    return {
+      name: "new-user",
+      text: "INSERT INTO users (username, email, password, created_on) VALUES ($1, $2, $3, $4) RETURNING user_id, username",
+      values: [username, email, passwordHash, timestamp],
+    };
+  },
+};
