@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const { protect } = require("./modules/auth");
-const { validateMessage, validateId } = require("./modules/validate");
+const {
+  validateMessage,
+  validateId,
+  validateFormData,
+} = require("./modules/validate");
 const { getAllMessages, createNewMessage } = require("./handlers/messages");
 const { getUserById } = require("./handlers/users");
 
