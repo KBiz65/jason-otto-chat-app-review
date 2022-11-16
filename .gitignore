@@ -1,3 +1,5 @@
+/client/build
+
 .pnp.*
 .yarn/*
 !.yarn/patches
