@@ -1,6 +1,7 @@
 const path = require("path");
-const morgan = require("morgan");
+const { createServer } = require("http");
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 const router = require("./router");
 const { validateLoginData } = require("./modules/validate");
@@ -16,4 +17,4 @@ if (process.env.NODE_ENV === "production") {
 app.use("/api", router);
 app.post("/signin", validateLoginData, signIn);
 
-module.exports = app;
+module.exports.server = createServer(app);
