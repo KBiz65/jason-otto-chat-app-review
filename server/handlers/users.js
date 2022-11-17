@@ -22,7 +22,8 @@ module.exports.createNewUser = async (req, res) => {
     const token = createJWT(user);
 
     res.statusCode = 201;
-    res.json({ message: "201 | Created", token });
+    res.cookie("auth-token", token, { httpOnly: true });
+    res.json({ message: "201 | Created" });
   } catch (err) {
     res.statusCode = 409;
     res.json({ message: "409 | Resource Already Exists" });
@@ -58,7 +59,8 @@ module.exports.signIn = async (req, res) => {
         password: user.password,
       });
       res.statusCode = 200;
-      res.json({ message: "200 | OK", token });
+      res.cookie("auth-token", token, { httpOnly: true });
+      res.json({ message: "200 | OK" });
     } else {
       throw Error;
     }

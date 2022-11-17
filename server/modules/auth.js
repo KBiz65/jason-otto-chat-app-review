@@ -11,22 +11,16 @@ module.exports.createJWT = (user) => {
 };
 
 module.exports.protect = (req, res, next) => {
-  const bearer = req.headers.authorization;
-  if (!bearer) {
+  const authToken = req.cookies["auth-token"];
+
+  if (!authToken) {
     res.statusCode = 401;
     res.json({ message: "401 | Not Authorized" });
     return;
   }
 
-  const token = bearer.split(" ")[1];
-  if (!token) {
-    res.statusCode = 401;
-    res.json({ message: "401 | Invalid Token" });
-    return;
-  }
-
   try {
-    const user = jwt.verify(token, process.env.JWT_SECRET);
+    const user = jwt.verify(authToken, process.env.JWT_SECRET);
     next();
   } catch (e) {
     res.statusCode = 401;
