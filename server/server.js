@@ -18,8 +18,5 @@ if (process.env.NODE_ENV === "production") {
 }
 app.use("/api", router);
 app.post("/signin", validateLoginData, signIn);
-app.get("/getcookies", (req, res) => {
-  res.json({ data: req.cookies });
-});
 
 module.exports.server = createServer(app);

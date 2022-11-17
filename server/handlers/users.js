@@ -56,7 +56,7 @@ module.exports.signIn = async (req, res) => {
     if (passwordsMatch) {
       const token = createJWT({
         user_id: user.user_id,
-        password: user.password,
+        username: user.username,
       });
       res.statusCode = 200;
       res.cookie("auth-token", token, { httpOnly: true });
