@@ -8,7 +8,7 @@ import "./Root.css";
 const Root = () => {
   return (
     <Fragment>
-      <AuthContext.Provider value={true}>
+      <AuthContext.Provider value={false}>
         <RootNavbar />
         <RootMain />
       </AuthContext.Provider>
