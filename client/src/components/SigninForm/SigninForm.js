@@ -3,7 +3,7 @@ import { Form, Button } from "react-bootstrap";
 
 const SigninForm = (props) => {
   const [validated, setValidated] = useState(false);
-  const emailInputRef = useRef();
+  const usernameInputRef = useRef();
   const passwordInputRef = useRef();
 
   const signinFormSubmitHandler = async (e) => {
@@ -14,24 +14,30 @@ const SigninForm = (props) => {
     if (!form.checkValidity()) {
       setValidated(true);
     } else {
-      // const email = emailInputRef.current.value;
-      // const password = passwordInputRef.current.value;
-
       console.log("form ok");
 
+      const username = usernameInputRef.current.value;
+      const password = passwordInputRef.current.value;
+
       // use your client to make the call to the server to validate
-      const response = await fetch("http://localhost:3001/", {
+      const resp = await fetch("http://localhost:3001/signin", {
+        method: "POST",
         mode: "cors",
+        credentials: "include",
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
       })
-        .then((resp) => {
-          console.log(resp);
-        })
+        .then((resp) => resp.json())
         .catch((err) => {
           console.log(err);
         });
+
+      console.log(resp);
     }
   };
 
@@ -42,16 +48,14 @@ const SigninForm = (props) => {
   return (
     <Form noValidate validated={validated} onSubmit={signinFormSubmitHandler}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
+        <Form.Label>Username</Form.Label>
         <Form.Control
-          ref={emailInputRef}
-          type="email"
-          placeholder="Enter email"
+          ref={usernameInputRef}
+          type="text"
+          placeholder="Enter username"
           required
         />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
+        <Form.Text className="text-muted">Enter that username</Form.Text>
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
