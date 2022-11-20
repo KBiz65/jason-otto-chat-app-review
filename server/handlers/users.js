@@ -59,7 +59,6 @@ module.exports.signIn = async (req, res) => {
         username: user.username,
       });
       res.statusCode = 200;
-      // res.set("Access-Control-Allow-Origin", "*");
       res.cookie("auth-token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production" || false,
