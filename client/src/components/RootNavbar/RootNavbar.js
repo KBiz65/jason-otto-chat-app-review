@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import AuthContext from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import BrandLogo from "../../assets/chat-app-logo.png";
 
 const RootNavbar = () => {
-  const isLoggedIn = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -28,8 +28,15 @@ const RootNavbar = () => {
             <NavLink to="" className="nav-link">
               Home
             </NavLink>
-            <NavLink to="signin" className="nav-link">
-              {isLoggedIn ? "Sign Out" : "Sign In"}
+            {/* if link is clicked when signing out, the run the signout function */}
+            <NavLink
+              to="signin"
+              className="nav-link"
+              onClick={() =>
+                authContext.data.isSignedIn && authContext.signout()
+              }
+            >
+              {authContext.data.isSignedIn ? "Sign Out" : "Sign In"}
             </NavLink>
           </Nav>
         </Navbar.Collapse>

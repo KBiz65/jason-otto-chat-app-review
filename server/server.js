@@ -10,7 +10,13 @@ const { validateLoginData } = require("./modules/validate");
 const { signIn } = require("./handlers/users");
 
 app.use(morgan("dev")); // logging
-app.use(cors({ origin: "http://localhost:3000/", credentials: true }));
+app.use(
+  cors({
+    origin: true,
+    // allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

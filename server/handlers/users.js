@@ -63,7 +63,7 @@ module.exports.signIn = async (req, res) => {
       res.cookie("auth-token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production" || false,
-        sameSite: "none",
+        sameSite: "None",
       });
       res.json({ message: "200 | OK" });
     } else {
