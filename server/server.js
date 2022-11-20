@@ -10,16 +10,10 @@ const { validateLoginData } = require("./modules/validate");
 const { signIn, signOut } = require("./handlers/users");
 
 app.use(morgan("dev")); // logging
-app.use(
-  cors({
-    origin: true,
-    // allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
-    credentials: true,
-  })
-);
+app.use(cookieParser());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.join(__dirname, "../client/build")));
@@ -30,6 +24,6 @@ app.get("/", (_, res) => {
 });
 app.use("/api", router);
 app.post("/signin", validateLoginData, signIn);
-app.get("/signout", signOut);
+app.post("/signout", signOut);
 
 module.exports.server = createServer(app);

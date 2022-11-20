@@ -23,33 +23,30 @@ const SigninForm = (props) => {
       const username = usernameInputRef.current.value;
       const password = passwordInputRef.current.value;
 
-      // const response = await fetch("http://localhost:3001/signin", {
-      //   method: "POST",
-      //   mode: "cors",
-      //   credentials: "include",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     username,
-      //     password,
-      //   }),
-      // })
-      //   .then((resp) => {
-      //     console.log(resp);
-      //     return resp;
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
-
-      const response = { status: 200 };
+      const response = await fetch("http://localhost:3001/signin", {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      })
+        .then((resp) => {
+          console.log(resp);
+          return resp;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
       if (response.status === 200) {
         console.log("you've logged in successfully");
         authContext.signin();
         console.log(authContext.data);
-        // here is where you would update state
       }
     }
   };

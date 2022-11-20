@@ -7,6 +7,25 @@ import BrandLogo from "../../assets/chat-app-logo.png";
 const RootNavbar = () => {
   const authContext = useContext(AuthContext);
 
+  const signOutHandler = async () => {
+    const response = await fetch("http://localhost:3001/signout", {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((resp) => resp)
+      .catch((err) => console.log(err));
+
+    // use this in the callback
+    if (response.status === 200) {
+      console.log("you *tried* deleting the cookie");
+      authContext.signout();
+    }
+  };
+
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
@@ -32,9 +51,7 @@ const RootNavbar = () => {
             <NavLink
               to="signin"
               className="nav-link"
-              onClick={() =>
-                authContext.data.isSignedIn && authContext.signout()
-              }
+              onClick={() => authContext.data.isSignedIn && signOutHandler()}
             >
               {authContext.data.isSignedIn ? "Sign Out" : "Sign In"}
             </NavLink>
