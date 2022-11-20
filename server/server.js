@@ -7,7 +7,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const router = require("./router");
 const { validateLoginData } = require("./modules/validate");
-const { signIn } = require("./handlers/users");
+const { signIn, signOut } = require("./handlers/users");
 
 app.use(morgan("dev")); // logging
 app.use(
@@ -24,12 +24,12 @@ app.use(cookieParser());
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.join(__dirname, "../client/build")));
 }
-
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   res.statusCode = 200;
   res.json({ message: "hello from the server" });
 });
 app.use("/api", router);
 app.post("/signin", validateLoginData, signIn);
+app.get("/signout", signOut);
 
 module.exports.server = createServer(app);

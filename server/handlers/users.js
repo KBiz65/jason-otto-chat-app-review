@@ -76,3 +76,9 @@ module.exports.signIn = async (req, res) => {
     });
   }
 };
+
+module.exports.signOut = (req, res) => {
+  res.clearCookie("auth-token");
+  res.statusCode = 200;
+  res.json({ message: "200 | OK" });
+};
