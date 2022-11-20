@@ -6,7 +6,6 @@ import BrandLogo from "../../assets/chat-app-logo.png";
 
 const RootNavbar = () => {
   const authContext = useContext(AuthContext);
-
   const signOutHandler = async () => {
     const response = await fetch("http://localhost:3001/signout", {
       method: "POST",
@@ -19,10 +18,10 @@ const RootNavbar = () => {
       .then((resp) => resp)
       .catch((err) => console.log(err));
 
-    // use this in the callback
     if (response.status === 200) {
-      console.log("you *tried* deleting the cookie");
+      console.log("cookie deleted");
       authContext.signout();
+      console.log(authContext);
     }
   };
 
@@ -38,7 +37,7 @@ const RootNavbar = () => {
               height="30"
               className="d-inline-block align-top rounded"
             />{" "}
-            D.N.D. Chat App
+            DND Chat App
           </NavLink>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
