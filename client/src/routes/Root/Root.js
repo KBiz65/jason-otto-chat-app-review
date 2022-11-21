@@ -5,14 +5,20 @@ import RootMain from "../../components/RootMain/RootMain";
 import RootFooter from "../../components/RootFooter/RootFooter";
 import "./Root.css";
 
+// ! HOW TO IMPLEMENT GUEST?
+// ? we need to disable the ability to add messages but still be view the home page
+// ? based on whether the user has logged in or has opted to proceed as a guest
+// ? ** MAIN IDEA ** this is about disabling a form on the home page with a boolean value
+
 const Root = () => {
-  const signin = (username) => {
+  const signin = (username = "Guest") => {
     setData((prevState) => {
       return {
         ...prevState,
         data: {
           username: username,
           isSignedIn: true,
+          isGuest: username === "Guest",
         },
       };
     });
@@ -24,6 +30,7 @@ const Root = () => {
         data: {
           username: "",
           isSignedIn: false,
+          isGuest: false,
         },
       };
     });

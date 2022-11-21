@@ -58,6 +58,11 @@ const SigninForm = (props) => {
     }
   };
 
+  const continueAsGuestHandler = () => {
+    console.log("setting guest auth permissions");
+    authContext.signin();
+  };
+
   // it will send the information provided to the server
   // await verification and the redirect the user to HOME if valid info provided
   // or will inform user the username password combo failed
@@ -89,7 +94,14 @@ const SigninForm = (props) => {
           Submit
         </Button>
         <Button
-          variant="primary"
+          variant="secondary"
+          type="button"
+          onClick={continueAsGuestHandler}
+        >
+          Continue as Guest
+        </Button>
+        <Button
+          variant="success"
           type="button"
           onClick={() => props.showSignupForm(true)}
         >
