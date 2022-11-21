@@ -1,4 +1,4 @@
-import { React, Fragment, useState } from "react";
+import { React, Fragment, useState, useEffect } from "react";
 import { data, AuthContext } from "../../context/AuthContext";
 import RootNavbar from "../../components/RootNavbar/RootNavbar";
 import RootMain from "../../components/RootMain/RootMain";
@@ -6,12 +6,12 @@ import RootFooter from "../../components/RootFooter/RootFooter";
 import "./Root.css";
 
 const Root = () => {
-  const signin = () => {
+  const signin = (username) => {
     setData((prevState) => {
       return {
         ...prevState,
         data: {
-          username: prevState.data.username,
+          username: username,
           isSignedIn: true,
         },
       };
@@ -22,13 +22,17 @@ const Root = () => {
       return {
         ...prevState,
         data: {
-          username: prevState.data.username,
+          username: "",
           isSignedIn: false,
         },
       };
     });
   };
   const [authData, setData] = useState({ data, signin, signout });
+
+  useEffect(() => {
+    console.log(authData);
+  }, [authData]);
 
   return (
     <Fragment>

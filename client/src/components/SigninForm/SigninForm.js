@@ -1,4 +1,4 @@
-import { useState, useRef, Fragment, useContext } from "react";
+import { useState, useRef, Fragment, useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
@@ -6,9 +6,12 @@ import { AuthContext } from "../../context/AuthContext";
 const SigninForm = (props) => {
   const authContext = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
-  // const [isSignedIn, setLoggedIn] = useState(false);
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
+
+  useEffect(() => {
+    console.log(authContext);
+  }, [authContext]);
 
   const signinFormSubmitHandler = async (e) => {
     e.preventDefault();
@@ -36,7 +39,7 @@ const SigninForm = (props) => {
         }),
       })
         .then((resp) => {
-          console.log(resp);
+          // console.log(resp);
           return resp;
         })
         .catch((err) => {
@@ -45,8 +48,12 @@ const SigninForm = (props) => {
 
       if (response.status === 200) {
         console.log("you've logged in successfully");
-        authContext.signin();
-        console.log(authContext.data);
+
+        const body = await response.json();
+        const username = body["username"];
+
+        authContext.signin(username);
+        // console.log(authContext.data);
       }
     }
   };

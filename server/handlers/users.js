@@ -61,10 +61,10 @@ module.exports.signIn = async (req, res) => {
       res.statusCode = 200;
       res.cookie("auth-token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production" || true,
+        secure: true,
         sameSite: "None",
       });
-      res.json({ message: "200 | OK" });
+      res.json({ message: "200 | OK", username });
     } else {
       throw Error;
     }
