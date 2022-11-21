@@ -1,4 +1,4 @@
-import { useState, useRef, Fragment, useContext, useEffect } from "react";
+import { useState, useRef, Fragment, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
@@ -9,9 +9,9 @@ const SigninForm = (props) => {
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
 
-  useEffect(() => {
-    console.log(authContext);
-  }, [authContext]);
+  // useEffect(() => {
+  //   console.log(authContext);
+  // }, [authContext]);
 
   const signinFormSubmitHandler = async (e) => {
     e.preventDefault();
@@ -59,13 +59,8 @@ const SigninForm = (props) => {
   };
 
   const continueAsGuestHandler = () => {
-    console.log("setting guest auth permissions");
     authContext.signin();
   };
-
-  // it will send the information provided to the server
-  // await verification and the redirect the user to HOME if valid info provided
-  // or will inform user the username password combo failed
 
   return (
     <Fragment>

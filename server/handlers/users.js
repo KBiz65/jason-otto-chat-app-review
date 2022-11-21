@@ -25,8 +25,17 @@ module.exports.createNewUser = async (req, res) => {
     res.cookie("auth-token", token, { httpOnly: true });
     res.json({ message: "201 | Created" });
   } catch (err) {
+    const constraint = err.constraint;
+    let conflict;
+
+    if (constraint === "users_username_key") {
+      conflict = "username";
+    } else if (constraint === "users_email_key") {
+      conflict = "email";
+    }
+
     res.statusCode = 409;
-    res.json({ message: "409 | Resource Already Exists" });
+    res.json({ message: "409 | Resource Already Exists", conflict });
   }
 };
 
