@@ -15,15 +15,16 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.get("/", (_, res) => {
-//   res.statusCode = 200;
-//   res.json({ message: "hello from the server" });
-// });
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+}
+
 app.use("/api", router);
 app.post("/signin", validateLoginData, signIn);
 app.post("/signout", signOut);
-if (process.env.NODE_ENV === "production") {
-  app.use("/*", express.static(path.join(__dirname, "../client/build")));
-}
+
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 module.exports.server = createServer(app);
