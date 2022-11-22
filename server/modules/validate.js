@@ -22,12 +22,8 @@ module.exports.validateLoginData = (req, res, next) => {
   const { username, password } = req.body;
 
   if (username && password) {
-    const isValidUsername = /^\w{6,32}$/.test(username);
-    const isExactlyFourDigits = /^\d{4}$/.test(parseInt(password));
-
-    if (isValidUsername && isExactlyFourDigits) {
-      next();
-    }
+    next();
+    return;
   } else {
     res.statusCode = 400;
     res.json({

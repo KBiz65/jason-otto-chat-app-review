@@ -1,17 +1,16 @@
 import { useState, useRef, Fragment, useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
 
 const SigninForm = (props) => {
   const authContext = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
+  const [alertText, setAlertText] = useState("");
+  const [alertVariant, setAlertVariant] = useState("");
+  const [invalidInput, setInvalidInput] = useState(false);
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
-
-  // useEffect(() => {
-  //   console.log(authContext);
-  // }, [authContext]);
 
   const signinFormSubmitHandler = async (e) => {
     e.preventDefault();
@@ -19,10 +18,12 @@ const SigninForm = (props) => {
     const form = e.currentTarget;
 
     if (!form.checkValidity()) {
-      setValidated(true);
+      if (!invalidInput) {
+        setInvalidInput(true);
+        setAlertVariant("danger");
+        setAlertText("Invalid username and password combination.");
+      }
     } else {
-      console.log("form ok");
-
       const username = usernameInputRef.current.value;
       const password = passwordInputRef.current.value;
 
@@ -38,28 +39,28 @@ const SigninForm = (props) => {
           password,
         }),
       })
-        .then((resp) => {
-          // console.log(resp);
-          return resp;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        .then((resp) => resp)
+        .catch((err) => console.log(err));
 
       if (response.status === 200) {
-        console.log("you've logged in successfully");
-
         const body = await response.json();
         const username = body["username"];
 
-        authContext.signin(username);
-        // console.log(authContext.data);
+        setValidated(true); // show feedback before proceeding
+        setAlertVariant("success");
+        setAlertText("Signed in successfully.");
+
+        setTimeout(() => {
+          authContext.signin(username);
+        }, 2000);
+      } else if (response.status === 401) {
+        setValidated(false);
+        setInvalidInput(true);
+        setAlertVariant("danger");
+        setAlertText("Invalid username and password combination.");
+        passwordInputRef.current.value = "";
       }
     }
-  };
-
-  const continueAsGuestHandler = () => {
-    authContext.signin();
   };
 
   return (
@@ -71,27 +72,37 @@ const SigninForm = (props) => {
           <Form.Control
             ref={usernameInputRef}
             type="text"
-            placeholder="Enter username"
+            placeholder="Enter Username"
+            isInvalid={invalidInput}
             required
           />
-          <Form.Text className="text-muted">Enter that username</Form.Text>
+          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">
+            {invalidInput ? "" : "Please enter your username."}
+          </Form.Control.Feedback>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             ref={passwordInputRef}
             type="password"
-            placeholder="Password"
+            placeholder="Enter Password"
+            isInvalid={invalidInput}
             required
           />
+          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">
+            {invalidInput ? "" : "Please enter your password."}
+          </Form.Control.Feedback>
         </Form.Group>
+        <Alert variant={alertVariant}>{alertText}</Alert>
         <Button variant="primary" type="submit">
           Submit
         </Button>
         <Button
           variant="secondary"
           type="button"
-          onClick={continueAsGuestHandler}
+          onClick={() => authContext.signin()}
         >
           Continue as Guest
         </Button>

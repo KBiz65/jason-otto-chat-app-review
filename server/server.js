@@ -14,7 +14,6 @@ app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
@@ -23,8 +22,10 @@ app.use("/api", router);
 app.post("/signin", validateLoginData, signIn);
 app.post("/signout", signOut);
 // catch all
-app.get("/*", (_, res) => {
-  res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
-});
+if (process.env.NODE_ENV === "production") {
+  app.get("/*", (_, res) => {
+    res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
+  });
+}
 
 module.exports.server = createServer(app);
