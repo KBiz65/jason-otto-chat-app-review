@@ -25,12 +25,11 @@ module.exports.createNewUser = async (req, res) => {
     res.cookie("auth-token", token, { httpOnly: true });
     res.json({ message: "201 | Created" });
   } catch (err) {
-    const constraint = err.constraint;
     let conflict;
 
-    if (constraint === "users_username_key") {
+    if (err.constraint === "users_username_key") {
       conflict = "username";
-    } else if (constraint === "users_email_key") {
+    } else if (err.constraint === "users_email_key") {
       conflict = "email";
     }
 
