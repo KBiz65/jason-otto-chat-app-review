@@ -15,10 +15,10 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (_, res) => {
-  res.statusCode = 200;
-  res.json({ message: "hello from the server" });
-});
+// app.get("/", (_, res) => {
+//   res.statusCode = 200;
+//   res.json({ message: "hello from the server" });
+// });
 app.use("/api", router);
 app.post("/signin", validateLoginData, signIn);
 app.post("/signout", signOut);
