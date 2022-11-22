@@ -52,7 +52,7 @@ const SignupForm = (props) => {
         setValidated(true);
         setAlertText("Account created successfully.");
         setAlertVariant("success");
-        setInterval(() => {
+        setTimeout(() => {
           authContext.signin(username); // allow time to see feedback before redirect is triggered
         }, 2000);
       } else if (response.status === 409) {

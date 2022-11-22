@@ -15,9 +15,6 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-if (process.env.NODE_ENV === "production") {
-  app.use("/", express.static(path.join(__dirname, "../client/build")));
-}
 app.get("/", (_, res) => {
   res.statusCode = 200;
   res.json({ message: "hello from the server" });
@@ -25,5 +22,8 @@ app.get("/", (_, res) => {
 app.use("/api", router);
 app.post("/signin", validateLoginData, signIn);
 app.post("/signout", signOut);
+if (process.env.NODE_ENV === "production") {
+  app.use("/*", express.static(path.join(__dirname, "../client/build")));
+}
 
 module.exports.server = createServer(app);
