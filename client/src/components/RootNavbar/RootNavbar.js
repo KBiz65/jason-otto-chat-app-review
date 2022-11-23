@@ -19,7 +19,6 @@ const RootNavbar = () => {
       .catch((err) => console.log(err));
 
     if (response.status === 200) {
-      console.log("cookie deleted");
       authContext.signout();
       console.log(authContext);
     }
