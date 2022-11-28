@@ -49,9 +49,9 @@ const RootNavbar = () => {
             <NavLink
               to="signin"
               className="nav-link"
-              onClick={() => authContext.data.isSignedIn && signOutHandler()}
+              onClick={() => authContext.state.isSignedIn && signOutHandler()}
             >
-              {authContext.data.isSignedIn ? "Sign Out" : "Sign In"}
+              {authContext.state.isSignedIn ? "Sign Out" : "Sign In"}
             </NavLink>
           </Nav>
         </Navbar.Collapse>

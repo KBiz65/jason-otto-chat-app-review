@@ -1,5 +1,5 @@
 import { React, Fragment, useState, useEffect } from "react";
-import { data, AuthContext } from "../../context/AuthContext";
+import { state, AuthContext } from "../../context/AuthContext";
 import RootNavbar from "../../components/RootNavbar/RootNavbar";
 import RootMain from "../../components/RootMain/RootMain";
 import RootFooter from "../../components/RootFooter/RootFooter";
@@ -7,10 +7,10 @@ import "./Root.css";
 
 const Root = () => {
   const signin = (username = "Guest") => {
-    setData((prevState) => {
+    setAuthContext((prevState) => {
       return {
         ...prevState,
-        data: {
+        state: {
           username: username,
           isSignedIn: true,
           isGuest: username === "Guest",
@@ -19,10 +19,10 @@ const Root = () => {
     });
   };
   const signout = () => {
-    setData((prevState) => {
+    setAuthContext((prevState) => {
       return {
         ...prevState,
-        data: {
+        state: {
           username: "",
           isSignedIn: false,
           isGuest: false,
@@ -30,15 +30,17 @@ const Root = () => {
       };
     });
   };
-  const [authData, setData] = useState({ data, signin, signout });
+  const [authContext, setAuthContext] = useState({ state, signin, signout });
+
+  console.log("loading root");
 
   useEffect(() => {
-    console.log(authData);
-  }, [authData]);
+    console.log(authContext);
+  }, [authContext]);
 
   return (
     <Fragment>
-      <AuthContext.Provider value={authData}>
+      <AuthContext.Provider value={authContext}>
         <RootNavbar />
         <RootMain />
       </AuthContext.Provider>

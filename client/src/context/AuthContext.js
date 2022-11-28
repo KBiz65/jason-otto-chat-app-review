@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-export const data = {
+export const state = {
   isSignedIn: false,
   isGuest: false,
   username: "",
