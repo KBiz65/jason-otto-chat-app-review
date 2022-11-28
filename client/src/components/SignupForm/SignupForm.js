@@ -78,7 +78,7 @@ const SignupForm = (props) => {
 
   return (
     <Fragment>
-      {authContext.data.isSignedIn && <Navigate to="/" replace={true} />}
+      {authContext.state.isSignedIn && <Navigate to="/" replace={true} />}
       <Form noValidate validated={validated} onSubmit={signUpFormSubmitHandler}>
         <Form.Group className="mb-3" controlId="formUsername">
           <Form.Label>Username</Form.Label>

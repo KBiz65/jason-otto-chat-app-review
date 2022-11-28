@@ -5,9 +5,8 @@ import ChatInterface from "../../components/ChatInterface/ChatInterface";
 import "./Home.css";
 
 const Home = () => {
+  // console.log("loading home component");
   const authContext = useContext(AuthContext);
-
-  console.log("loading home component");
 
   return (
     <Fragment>

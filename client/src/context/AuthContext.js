@@ -1,9 +1,10 @@
 import { createContext } from "react";
 
 export const state = {
+  username: "",
   isSignedIn: false,
   isGuest: false,
-  username: "",
+  justSignedOut: false,
 };
 
 export const AuthContext = createContext();
