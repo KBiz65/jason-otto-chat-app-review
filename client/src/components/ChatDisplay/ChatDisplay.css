@@ -124,3 +124,9 @@ p[class^="from-"].emoji::before {
     margin: 0.5rem 0;
   }
 }
+
+.message-header {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}

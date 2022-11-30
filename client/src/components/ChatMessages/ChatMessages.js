@@ -1,26 +1,23 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { Card } from "react-bootstrap";
+import { SocketContext } from "../../context/SocketContext";
 import ChatDisplay from "../../components/ChatDisplay/ChatDisplay";
 import ChatMessageForm from "../../components/ChatMessageForm/ChatMessageForm";
 
-const ChatMessages = () => {
-  const [chatMessages, setChatMessages] = useState([]);
+const ChatMessages = ({ currentRoom }) => {
+  const socketContext = useContext(SocketContext);
 
-  const chatMessageSubmitHandler = (chatMessage) => {
-    // todo: pass is to the message container
-    setChatMessages((prevState) => {
-      return [...prevState, chatMessage];
-    });
-    // todo: emit the message with the socket connection!
+  const chatMessageSubmitHandler = (message) => {
+    socketContext.client.emit("new message", message);
   };
 
   return (
     <Card>
       <Card.Header className="text-center">
-        <h3>Chatroom</h3>
+        <h3>{`Chatroom #${currentRoom}`}</h3>
       </Card.Header>
       <Card.Body className="card-body__chat-messages">
-        <ChatDisplay chatMessages={chatMessages} />
+        <ChatDisplay />
       </Card.Body>
       <Card.Footer>
         <ChatMessageForm onChatMessageSubmit={chatMessageSubmitHandler} />

@@ -1,11 +1,14 @@
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { SocketContext } from "../../context/SocketContext";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import BrandLogo from "../../assets/chat-app-logo.png";
 
 const RootNavbar = () => {
   const authContext = useContext(AuthContext);
+  const socketContext = useContext(SocketContext);
+
   const signOutHandler = async () => {
     const response = await fetch("http://localhost:3001/signout", {
       method: "POST",
@@ -20,7 +23,8 @@ const RootNavbar = () => {
 
     if (response.status === 200) {
       authContext.signout();
-      console.log(authContext);
+      socketContext.disconnect();
+      // console.log(authContext);
     }
   };
 
