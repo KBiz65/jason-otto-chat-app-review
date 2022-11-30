@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import RootNavbar from "../../components/RootNavbar/RootNavbar";
 import RootMain from "../../components/RootMain/RootMain";
 import RootFooter from "../../components/RootFooter/RootFooter";
+import uniqid from "uniqid";
 import "react-toastify/dist/ReactToastify.css";
 import "./Root.css";
 
@@ -53,6 +54,19 @@ const Root = () => {
       };
     });
   };
+  socket.reset = () => {
+    setSocketContext((prevState) => {
+      return {
+        ...prevState,
+        client: null,
+        message: null,
+        users: null,
+        // usersUpdate: false,
+        room: null,
+        roomChanged: false,
+      };
+    });
+  };
 
   const [authContext, setAuthContext] = useState({ state, signin, signout });
   const [socketContext, setSocketContext] = useState(socket);
@@ -66,36 +80,52 @@ const Root = () => {
     }
 
     if (authContext.state.isSignedIn && !socketContext.client) {
-      console.log("connect to server with socket");
       socketContext.connect();
-
       socketContext.client.emit("joinRoom", {
         username: authContext.state.username,
         room: defaultRoom,
       });
       // update context with current room
       setSocketContext((prevState) => {
-        console.log("updating the room");
+        console.log("update state room value");
         return {
           ...prevState,
           room: defaultRoom,
         };
       });
 
-      socketContext.client.on("user status", (message) => {
+      socketContext.client.on("roomUsers", (data) => {
+        console.log("room users update received");
         setSocketContext((prevState) => {
           return {
             ...prevState,
-            message,
+            users: data.users,
+          };
+        });
+      });
+
+      socketContext.client.on("user status", (message) => {
+        console.log("new user status received");
+        setSocketContext((prevState) => {
+          return {
+            ...prevState,
+            message: {
+              ...message,
+              id: uniqid(),
+            },
           };
         });
       });
 
       socketContext.client.on("new message", (message) => {
+        console.log("new message received");
         setSocketContext((prevState) => {
           return {
             ...prevState,
-            message,
+            message: {
+              ...message,
+              id: uniqid(),
+            },
           };
         });
       });

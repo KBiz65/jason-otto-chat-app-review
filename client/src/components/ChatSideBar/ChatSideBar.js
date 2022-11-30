@@ -1,6 +1,11 @@
+import { useContext } from "react";
+import uniqid from "uniqid";
+import { SocketContext } from "../../context/SocketContext";
 import { Card, ListGroup, Dropdown, DropdownButton } from "react-bootstrap";
 
 const ChatSideBar = ({ onRoomChange, currentRoom }) => {
+  const socketContext = useContext(SocketContext);
+
   const chatroomSelectHandler = (room) => {
     onRoomChange(room);
   };
@@ -21,9 +26,12 @@ const ChatSideBar = ({ onRoomChange, currentRoom }) => {
       <Card.Body>
         <h4 className="text-center">Whose Online?</h4>
         <ListGroup variant="flush">
-          {/* <ListGroup.Item>User #1</ListGroup.Item>
-          <ListGroup.Item>User #2</ListGroup.Item>
-          <ListGroup.Item>User #3</ListGroup.Item> */}
+          {socketContext.users &&
+            socketContext.users.map((elem) => {
+              return (
+                <ListGroup.Item key={uniqid()}>{elem.username}</ListGroup.Item>
+              );
+            })}
         </ListGroup>
       </Card.Body>
       <Card.Footer className="text-muted"></Card.Footer>

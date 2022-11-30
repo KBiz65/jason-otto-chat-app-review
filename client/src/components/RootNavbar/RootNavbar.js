@@ -24,7 +24,7 @@ const RootNavbar = () => {
     if (response.status === 200) {
       authContext.signout();
       socketContext.disconnect();
-      // console.log(authContext);
+      socketContext.reset();
     }
   };
 
