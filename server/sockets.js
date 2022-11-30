@@ -13,8 +13,6 @@ const { get } = require("./router");
 const io = new Server(server, { cors: { origin: "*" } });
 
 io.on("connection", (socket) => {
-  console.log("new WS connection");
-
   socket.on("joinRoom", ({ username, room }) => {
     socket.join(room);
 
@@ -28,6 +26,7 @@ io.on("connection", (socket) => {
           formatMessage("ChatBot", `${user.username} has left the chat.`)
         );
 
+      // inform users of room that was just left
       io.in(user.room).emit("roomUsers", {
         users: getRoomUsers(user.room),
       });
@@ -43,7 +42,7 @@ io.on("connection", (socket) => {
       formatMessage("ChatBot", `Welcome to room #${room}!`)
     );
 
-    // inform other users of join
+    // inform users of current room of user join
     socket
       .to(room)
       .emit(
