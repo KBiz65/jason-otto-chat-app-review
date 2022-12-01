@@ -10,12 +10,13 @@ import "react-toastify/dist/ReactToastify.css";
 import "./Root.css";
 
 const Root = () => {
-  const signin = (username = "Guest") => {
+  const signin = (id = null, username = "Guest") => {
     setAuthContext((prevState) => {
       return {
         ...prevState,
         state: {
-          username: username,
+          id,
+          username,
           isSignedIn: true,
           isGuest: username === "Guest",
           justSignedOut: false,
@@ -28,6 +29,7 @@ const Root = () => {
       return {
         ...prevState,
         state: {
+          id: null,
           username: "",
           isSignedIn: false,
           isGuest: false,
@@ -91,6 +93,7 @@ const Root = () => {
         return {
           ...prevState,
           room: defaultRoom,
+          roomChanged: true,
         };
       });
 
@@ -137,6 +140,7 @@ const Root = () => {
           return {
             ...prevState,
             state: {
+              id: null,
               username: "",
               isSignedIn: false,
               isGuest: false,
@@ -146,6 +150,8 @@ const Root = () => {
         });
       }
     }, 1000);
+
+    console.log(authContext);
 
     return () => {
       clearTimeout(timerId);

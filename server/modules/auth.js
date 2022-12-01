@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 module.exports.createJWT = (user) => {
   const token = jwt.sign(
-    { user_id: user.user_id, username: user.username },
+    { id: user.id, username: user.username },
     process.env.JWT_SECRET
     // { expiresIn: "5m" }
   );

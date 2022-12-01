@@ -59,11 +59,11 @@ module.exports.signIn = async (req, res) => {
   try {
     const queryRes = await client.query(query);
     const user = queryRes.rows[0];
-    const passwordsMatch = await comparePasswords(password, user.password);
+    const passwordsMatch = await comparePasswords(password, user.password_hash);
 
     if (passwordsMatch) {
       const token = createJWT({
-        user_id: user.user_id,
+        id: user.id,
         username: user.username,
       });
       res.statusCode = 200;
@@ -72,7 +72,7 @@ module.exports.signIn = async (req, res) => {
         secure: true,
         sameSite: "None",
       });
-      res.json({ message: "200 | OK", username });
+      res.json({ message: "200 | OK", id: user.id, username: user.username });
     } else {
       throw Error;
     }

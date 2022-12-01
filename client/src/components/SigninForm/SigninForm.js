@@ -44,14 +44,14 @@ const SigninForm = (props) => {
 
       if (response.status === 200) {
         const body = await response.json();
-        const username = body["username"];
+        const { id, username } = body;
 
         setValidated(true); // show feedback before proceeding
         setAlertVariant("success");
         setAlertText("Signed in successfully.");
 
         setTimeout(() => {
-          authContext.signin(username);
+          authContext.signin(id, username);
         }, 2000);
       } else if (response.status === 401) {
         setValidated(false);

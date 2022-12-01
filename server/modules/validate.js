@@ -34,9 +34,25 @@ module.exports.validateLoginData = (req, res, next) => {
   }
 };
 
+module.exports.validateQuery = (req, res, next) => {
+  const { room } = req.query;
+
+  if (room) {
+    next();
+    return;
+  } else {
+    res.statusCode = 400;
+    res.json({
+      message: "400 | Bad Request",
+      detail:
+        "One or more required parameters were not provided or properly formatted by the request.",
+    });
+  }
+};
+
 module.exports.validateMessage = (req, res, next) => {
-  const { author_id, text_content } = req.body;
-  if (author_id && text_content) {
+  const { author_id, room, text_content } = req.body;
+  if (author_id && room && text_content) {
     next();
     return;
   }
@@ -49,9 +65,9 @@ module.exports.validateMessage = (req, res, next) => {
 };
 
 module.exports.validateId = (req, res, next) => {
-  const { user_id } = req.params;
+  const { id } = req.params;
 
-  if (Number.isInteger(parseInt(user_id))) {
+  if (Number.isInteger(parseInt(id))) {
     next();
     return;
   }

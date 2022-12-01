@@ -5,14 +5,15 @@ const {
   validateMessage,
   validateId,
   validateFormData,
+  validateQuery,
 } = require("./modules/validate");
 const { getAllMessages, createNewMessage } = require("./handlers/messages");
 const { getUserById, createNewUser } = require("./handlers/users");
 
-router.get("/users/:user_id", validateId, getUserById);
+router.get("/users/:id", validateId, getUserById);
 router.post("/users", validateFormData, createNewUser);
 
-router.get("/messages", getAllMessages);
-router.post("/messages", [validateMessage, protect], createNewMessage);
+router.get("/messages", [protect, validateQuery], getAllMessages);
+router.post("/messages", [protect, validateMessage], createNewMessage);
 
 module.exports = router;

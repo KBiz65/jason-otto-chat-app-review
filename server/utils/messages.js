@@ -7,6 +7,6 @@ module.exports.formatMessage = (username, message) => {
   return {
     username,
     message,
-    time: dayjs().format("LT"),
+    time: dayjs().format("ll LT"),
   };
 };

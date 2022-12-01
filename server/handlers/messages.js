@@ -1,7 +1,8 @@
 const { client, preparedStmts } = require("../modules/db");
 
-module.exports.getAllMessages = async (_, res) => {
-  const query = preparedStmts.getAllMessages();
+module.exports.getAllMessages = async (req, res) => {
+  const { room } = req.query;
+  const query = preparedStmts.getAllMessages(room);
 
   try {
     const queryRes = await client.query(query);
@@ -14,9 +15,13 @@ module.exports.getAllMessages = async (_, res) => {
 };
 
 module.exports.createNewMessage = async (req, res) => {
-  const { author_id, text_content } = req.body;
+  const { author_id, room, text_content } = req.body;
+
+  console.log("message payload: ", author_id, room, text_content);
+
   const params = {
     author_id,
+    room,
     text_content,
     timestamp: new Date(),
   };

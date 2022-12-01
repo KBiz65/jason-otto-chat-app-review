@@ -1,6 +1,7 @@
 import { createContext } from "react";
 
 export const state = {
+  id: null,
   username: "",
   isSignedIn: false,
   isGuest: false,

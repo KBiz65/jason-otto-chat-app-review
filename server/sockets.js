@@ -14,6 +14,7 @@ const io = new Server(server, { cors: { origin: "*" } });
 
 io.on("connection", (socket) => {
   socket.on("joinRoom", ({ username, room }) => {
+    const isGuest = username === "Guest";
     socket.join(room);
 
     const user = getUser(socket.id);
@@ -36,10 +37,13 @@ io.on("connection", (socket) => {
       addUser(socket.id, username, room);
     }
 
+    const guestMessage = isGuest
+      ? "You are able to read messages but not participate. To send messages, please login."
+      : "";
     // welcome current user
     socket.emit(
       "new message",
-      formatMessage("ChatBot", `Welcome to room #${room}!`)
+      formatMessage("ChatBot", `Welcome to room #${room}! ${guestMessage}`)
     );
 
     // inform users of current room of user join
@@ -47,7 +51,12 @@ io.on("connection", (socket) => {
       .to(room)
       .emit(
         "user status",
-        formatMessage("ChatBot", `${username} has joined the chat.`)
+        formatMessage(
+          "ChatBot",
+          `${username} ${
+            isGuest ? "is lurking the chat." : "has joined the chat."
+          } `
+        )
       );
 
     io.in(room).emit("roomUsers", {
