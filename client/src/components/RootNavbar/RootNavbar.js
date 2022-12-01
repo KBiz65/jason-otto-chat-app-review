@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { host } from "../../utils/host";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
 import { Container, Nav, Navbar } from "react-bootstrap";
@@ -10,7 +11,7 @@ const RootNavbar = () => {
   const socketContext = useContext(SocketContext);
 
   const signOutHandler = async () => {
-    const response = await fetch("http://localhost:3001/signout", {
+    const response = await fetch(`${host}/signout`, {
       method: "POST",
       mode: "cors",
       credentials: "include",
@@ -49,7 +50,6 @@ const RootNavbar = () => {
             <NavLink to="" className="nav-link">
               Home
             </NavLink>
-            {/* if link is clicked when signing out, the run the signout function */}
             <NavLink
               to="signin"
               className="nav-link"

@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import { io } from "socket.io-client";
+import { host } from "../utils/host";
 
 export const socket = {
   client: null,
@@ -8,7 +9,7 @@ export const socket = {
   room: null,
   roomChanged: false,
   connect() {
-    this.client = io("http://localhost:3001/");
+    this.client = io(`${host}/`);
   },
   disconnect() {
     this.client.disconnect();

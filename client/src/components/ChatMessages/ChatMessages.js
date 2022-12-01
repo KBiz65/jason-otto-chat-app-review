@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { Card } from "react-bootstrap";
+import { host } from "../../utils/host";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
 import ChatDisplay from "../../components/ChatDisplay/ChatDisplay";
@@ -10,7 +11,7 @@ const ChatMessages = ({ currentRoom }) => {
   const socketContext = useContext(SocketContext);
 
   const chatMessageSubmitHandler = async (message) => {
-    const response = await fetch("http://localhost:3001/api/messages", {
+    const response = await fetch(`${host}/api/messages`, {
       method: "POST",
       mode: "cors",
       credentials: "include",

@@ -89,7 +89,6 @@ const Root = () => {
       });
       // update context with current room
       setSocketContext((prevState) => {
-        console.log("update state room value");
         return {
           ...prevState,
           room: defaultRoom,
@@ -98,7 +97,6 @@ const Root = () => {
       });
 
       socketContext.client.on("roomUsers", (data) => {
-        console.log("room users update received");
         setSocketContext((prevState) => {
           return {
             ...prevState,
@@ -108,7 +106,6 @@ const Root = () => {
       });
 
       socketContext.client.on("user status", (message) => {
-        console.log("new user status received");
         setSocketContext((prevState) => {
           return {
             ...prevState,
@@ -121,7 +118,6 @@ const Root = () => {
       });
 
       socketContext.client.on("new message", (message) => {
-        console.log("new message received");
         setSocketContext((prevState) => {
           return {
             ...prevState,
@@ -150,8 +146,6 @@ const Root = () => {
         });
       }
     }, 1000);
-
-    console.log(authContext);
 
     return () => {
       clearTimeout(timerId);
