@@ -17,8 +17,6 @@ module.exports.getAllMessages = async (req, res) => {
 module.exports.createNewMessage = async (req, res) => {
   const { author_id, room, text_content } = req.body;
 
-  console.log("message payload: ", author_id, room, text_content);
-
   const params = {
     author_id,
     room,

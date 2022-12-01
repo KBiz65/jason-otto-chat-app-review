@@ -39,8 +39,8 @@ module.exports.createNewUser = async (req, res) => {
 };
 
 module.exports.getUserById = async (req, res) => {
-  const { user_id } = req.params;
-  const query = preparedStmts.getUserById(user_id);
+  const { id } = req.params;
+  const query = preparedStmts.getUserById(id);
 
   try {
     const queryRes = await client.query(query);

@@ -9,7 +9,9 @@ const router = require("./router");
 const { validateLoginData } = require("./modules/validate");
 const { signIn, signOut } = require("./handlers/users");
 
-app.use(morgan("dev")); // logging
+if (process.env.NODE_ENV !== "production") {
+  app.use(morgan("dev")); // logging
+}
 app.use(cookieParser());
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
