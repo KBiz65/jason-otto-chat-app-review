@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
+import uniqid from "uniqid";
 import * as dayjs from "dayjs";
 import * as LocalizedFormat from "dayjs/plugin/localizedFormat";
 import "./ChatDisplay.css";
@@ -13,8 +14,6 @@ const ChatDisplay = () => {
   const [chatMessages, setChatMessages] = useState([]);
 
   useEffect(() => {
-    let payload = [];
-
     // get old messages
     if (socketContext.roomChanged) {
       const getMessages = async () => {
@@ -50,7 +49,7 @@ const ChatDisplay = () => {
       getMessages(); // run the async function
     } else {
       // otherwise just listen for new messages
-      if (socketContext.message) {
+      if (socketContext.message && chatMessages.length > 0) {
         const lastMessage = chatMessages[chatMessages.length - 1];
         const notDuplicate = lastMessage.id !== socketContext.message.id;
 
@@ -68,7 +67,7 @@ const ChatDisplay = () => {
       {chatMessages.map((elem) => {
         const isFromUser = authContext.state.username === elem.username;
         return (
-          <p key={elem.id} className={isFromUser ? "from-me" : "from-them"}>
+          <p key={uniqid()} className={isFromUser ? "from-me" : "from-them"}>
             <span className="message-header">{`${
               isFromUser ? "You" : elem.username
             } - ${elem.time}`}</span>

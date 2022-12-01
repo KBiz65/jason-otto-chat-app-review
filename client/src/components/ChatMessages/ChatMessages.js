@@ -10,8 +10,6 @@ const ChatMessages = ({ currentRoom }) => {
   const socketContext = useContext(SocketContext);
 
   const chatMessageSubmitHandler = async (message) => {
-    socketContext.client.emit("new message", message);
-
     const response = await fetch("http://localhost:3001/api/messages", {
       method: "POST",
       mode: "cors",
@@ -28,7 +26,9 @@ const ChatMessages = ({ currentRoom }) => {
       .then((resp) => resp)
       .catch((err) => console.log(err));
 
-    console.log(response);
+    if (response.status === 201) {
+      socketContext.client.emit("new message", message);
+    }
   };
 
   return (
