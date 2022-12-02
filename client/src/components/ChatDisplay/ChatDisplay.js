@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { host } from "../../utils/host";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
 import uniqid from "uniqid";
@@ -19,7 +18,7 @@ const ChatDisplay = () => {
     if (socketContext.roomChanged) {
       const getMessages = async () => {
         const response = await fetch(
-          `${host}/api/messages?room=${socketContext.room}`,
+          `/api/messages?room=${socketContext.room}`,
           {
             method: "GET",
             mode: "cors",

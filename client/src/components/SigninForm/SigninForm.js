@@ -1,5 +1,4 @@
 import { useState, useRef, Fragment, useContext } from "react";
-import { host } from "../../utils/host";
 import { Navigate } from "react-router-dom";
 import { Form, Button, Alert } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
@@ -28,7 +27,7 @@ const SigninForm = (props) => {
       const username = usernameInputRef.current.value;
       const password = passwordInputRef.current.value;
 
-      const response = await fetch(`${host}/signin`, {
+      const response = await fetch(`/signin`, {
         method: "POST",
         mode: "cors",
         credentials: "include",

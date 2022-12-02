@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { host } from "../../utils/host";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
 import { Container, Nav, Navbar } from "react-bootstrap";
@@ -11,7 +10,7 @@ const RootNavbar = () => {
   const socketContext = useContext(SocketContext);
 
   const signOutHandler = async () => {
-    const response = await fetch(`${host}/signout`, {
+    const response = await fetch(`/signout`, {
       method: "POST",
       mode: "cors",
       credentials: "include",
