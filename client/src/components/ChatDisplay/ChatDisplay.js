@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
+import { host } from "../../utils/host";
 import uniqid from "uniqid";
 import * as dayjs from "dayjs";
 import * as LocalizedFormat from "dayjs/plugin/localizedFormat";
@@ -18,7 +19,7 @@ const ChatDisplay = () => {
     if (socketContext.roomChanged) {
       const getMessages = async () => {
         const response = await fetch(
-          `/api/messages?room=${socketContext.room}`,
+          `${host}/api/messages?room=${socketContext.room}`,
           {
             method: "GET",
             mode: "cors",

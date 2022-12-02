@@ -1,5 +1,6 @@
 import { Fragment, useState, useContext, useRef } from "react";
 import { Navigate } from "react-router-dom";
+import { host } from "../../utils/host";
 import { Form, Button, Alert } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -32,7 +33,7 @@ const SignupForm = (props) => {
       const email = emailInputRef.current.value;
       const password = passwordInputRef.current.value;
 
-      const response = await fetch(`/api/users`, {
+      const response = await fetch(`${host}/api/users`, {
         method: "POST",
         mode: "cors",
         credentials: "include",
