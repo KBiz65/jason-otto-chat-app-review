@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { Card } from "react-bootstrap";
-import { host } from "../../utils/host";
-import { AuthContext } from "../../context/AuthContext";
-import { SocketContext } from "../../context/SocketContext";
-import ChatDisplay from "../../components/ChatDisplay/ChatDisplay";
-import ChatMessageForm from "../../components/ChatMessageForm/ChatMessageForm";
+import { host } from "../../../utils/host";
+import { AuthContext } from "../../../context/AuthContext";
+import { SocketContext } from "../../../context/SocketContext";
+import MessagesDisplay from "./MessagesDisplay/MessagesDisplay";
+import MessageForm from "./MessageForm/MessageForm";
 
-const ChatMessages = ({ currentRoom }) => {
+const Chatroom = ({ currentRoom }) => {
   const authContext = useContext(AuthContext);
   const socketContext = useContext(SocketContext);
 
@@ -38,13 +38,13 @@ const ChatMessages = ({ currentRoom }) => {
         <h3>{`Chatroom #${currentRoom}`}</h3>
       </Card.Header>
       <Card.Body className="card-body__chat-messages">
-        <ChatDisplay />
+        <MessagesDisplay />
       </Card.Body>
       <Card.Footer>
-        <ChatMessageForm onChatMessageSubmit={chatMessageSubmitHandler} />
+        <MessageForm onChatMessageSubmit={chatMessageSubmitHandler} />
       </Card.Footer>
     </Card>
   );
 };
 
-export default ChatMessages;
+export default Chatroom;

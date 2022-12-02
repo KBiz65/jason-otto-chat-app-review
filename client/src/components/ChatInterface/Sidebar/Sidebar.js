@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import uniqid from "uniqid";
-import { SocketContext } from "../../context/SocketContext";
+import { SocketContext } from "../../../context/SocketContext";
 import { Card, ListGroup, Dropdown, DropdownButton } from "react-bootstrap";
 
-const ChatSideBar = ({ onRoomChange, currentRoom }) => {
+const Sidebar = ({ onRoomChange, currentRoom }) => {
   const socketContext = useContext(SocketContext);
 
   const chatroomSelectHandler = (room) => {
@@ -39,4 +39,4 @@ const ChatSideBar = ({ onRoomChange, currentRoom }) => {
   );
 };
 
-export default ChatSideBar;
+export default Sidebar;

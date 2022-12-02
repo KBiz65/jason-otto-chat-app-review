@@ -1,9 +1,9 @@
 import { useContext } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
-import { Container, Row, Col } from "react-bootstrap";
-import ChatMessages from "../../components/ChatMessages/ChatMessages";
-import ChatSideBar from "../../components/ChatSideBar/ChatSideBar";
+import Chatroom from "./Chatroom/Chatroom";
+import Sidebar from "./Sidebar/Sidebar";
 
 const ChatInterface = () => {
   const socketContext = useContext(SocketContext);
@@ -23,13 +23,13 @@ const ChatInterface = () => {
     <Container>
       <Row>
         <Col md={4}>
-          <ChatSideBar
+          <Sidebar
             currentRoom={socketContext.room}
             onRoomChange={roomChangeHandler}
           />
         </Col>
         <Col md={8}>
-          <ChatMessages currentRoom={socketContext.room} />
+          <Chatroom currentRoom={socketContext.room} />
         </Col>
       </Row>
     </Container>

@@ -1,8 +1,8 @@
 import { useContext, useRef, useState } from "react";
 import { Form, InputGroup, Button } from "react-bootstrap";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../../context/AuthContext";
 
-const ChatMessageForm = (props) => {
+const MessageForm = (props) => {
   const authContext = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
   const [chatMessage, setChatMessage] = useState("");
@@ -56,4 +56,4 @@ const ChatMessageForm = (props) => {
     </Form>
   );
 };
-export default ChatMessageForm;
+export default MessageForm;
