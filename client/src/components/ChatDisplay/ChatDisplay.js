@@ -28,7 +28,7 @@ const ChatDisplay = () => {
           .then((resp) => resp)
           .catch((err) => console.log(err));
 
-        if (response.status === 200) {
+        if (response.status === 200 || response.status === 304) {
           let { data } = await response.json();
           const oldMessages = data.map((elem) => {
             return {
