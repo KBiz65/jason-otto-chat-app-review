@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { host } from "../../utils/host";
-import { AuthContext } from "../../context/AuthContext";
-import { SocketContext } from "../../context/SocketContext";
+import { host } from "../../../utils/host";
+import { AuthContext } from "../../../context/AuthContext";
+import { SocketContext } from "../../../context/SocketContext";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import BrandLogo from "../../assets/chat-app-logo.png";
+import BrandLogo from "../../../assets/chat-app-logo.png";
 
 const RootNavbar = () => {
   const authContext = useContext(AuthContext);

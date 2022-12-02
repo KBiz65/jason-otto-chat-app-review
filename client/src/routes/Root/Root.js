@@ -1,12 +1,13 @@
 import { React, Fragment, useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { state, AuthContext } from "../../context/AuthContext";
 import { socket, SocketContext } from "../../context/SocketContext";
-import { ToastContainer, toast } from "react-toastify";
-import RootNavbar from "../../components/RootNavbar/RootNavbar";
-import RootMain from "../../components/RootMain/RootMain";
-import RootFooter from "../../components/RootFooter/RootFooter";
+import RootNavbar from "../../components/Root/RootNavbar/RootNavbar";
+import RootMain from "../../components/Root/RootMain/RootMain";
+import RootFooter from "../../components/Root/RootFooter/RootFooter";
 import uniqid from "uniqid";
-import "react-toastify/dist/ReactToastify.css";
+
 import "./Root.css";
 
 const Root = () => {
@@ -118,7 +119,6 @@ const Root = () => {
       });
 
       socketContext.client.on("new message", (message) => {
-        console.log("new message, updating state");
         setSocketContext((prevState) => {
           return {
             ...prevState,
