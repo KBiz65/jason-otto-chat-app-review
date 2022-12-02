@@ -39,12 +39,14 @@ const ChatDisplay = () => {
             };
           });
 
+          setChatMessages(oldMessages);
+
           // always overwrite anything in chatmessages
-          if (socketContext.message) {
-            setChatMessages([...oldMessages, socketContext.message]);
-          } else {
-            setChatMessages([...oldMessages]);
-          }
+          // if (socketContext.message) {
+          //   setChatMessages([...oldMessages, socketContext.message]);
+          // } else {
+          //   setChatMessages([...oldMessages]);
+          // }
           socketContext.toggleRoomChanged();
         }
       };
