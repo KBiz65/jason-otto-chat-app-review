@@ -43,7 +43,7 @@ const ChatDisplay = () => {
           if (socketContext.message) {
             setChatMessages([...oldMessages, socketContext.message]);
           } else {
-            setChatMessages(oldMessages);
+            setChatMessages([...oldMessages]);
           }
           socketContext.toggleRoomChanged();
         }
