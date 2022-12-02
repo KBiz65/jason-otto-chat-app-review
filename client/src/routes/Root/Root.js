@@ -52,7 +52,7 @@ const Root = () => {
       return {
         ...prevState,
         roomChanged: false,
-        message: null,
+        // message: null,
       };
     });
   };
@@ -118,6 +118,7 @@ const Root = () => {
       });
 
       socketContext.client.on("new message", (message) => {
+        console.log("new message, updating state");
         setSocketContext((prevState) => {
           return {
             ...prevState,

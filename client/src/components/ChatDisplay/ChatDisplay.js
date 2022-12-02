@@ -1,13 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
-import { host } from "../../utils/host";
-import uniqid from "uniqid";
-import * as dayjs from "dayjs";
-import * as LocalizedFormat from "dayjs/plugin/localizedFormat";
+import { getMessages } from "../../modules/messages";
 import "./ChatDisplay.css";
-
-dayjs.extend(LocalizedFormat);
 
 const ChatDisplay = () => {
   const authContext = useContext(AuthContext);
@@ -15,64 +10,35 @@ const ChatDisplay = () => {
   const [chatMessages, setChatMessages] = useState([]);
 
   useEffect(() => {
-    // get old messages
     if (socketContext.roomChanged) {
-      const getMessages = async () => {
-        const response = await fetch(
-          `${host}/api/messages?room=${socketContext.room}`,
-          {
-            method: "GET",
-            mode: "cors",
-            credentials: "include",
-          }
-        )
-          .then((resp) => resp)
-          .catch((err) => console.log(err));
-
-        if (response.status === 200 || response.status === 304) {
-          let { data } = await response.json();
-          const oldMessages = data.map((elem) => {
-            return {
-              id: elem.id,
-              username: elem.username,
-              message: elem.text_content,
-              time: dayjs(elem.created_on).format("ll LT"),
-            };
-          });
-
-          setChatMessages(oldMessages);
-
-          // always overwrite anything in chatmessages
-          // if (socketContext.message) {
-          //   setChatMessages([...oldMessages, socketContext.message]);
-          // } else {
-          //   setChatMessages([...oldMessages]);
-          // }
-          socketContext.toggleRoomChanged();
-        }
-      };
-      getMessages(); // run the async function
-    } else {
-      // otherwise just listen for new messages
-      if (socketContext.message && chatMessages.length > 0) {
-        const lastMessage = chatMessages[chatMessages.length - 1];
-        const notDuplicate = lastMessage.id !== socketContext.message.id;
-
-        if (notDuplicate) {
-          setChatMessages((prevState) => {
-            return [...prevState, socketContext.message];
-          });
-        }
-      }
+      socketContext.toggleRoomChanged();
+      getMessages(socketContext.room, setChatMessages);
     }
   }, [socketContext]);
+
+  useEffect(() => {
+    if (socketContext.message) {
+      if (chatMessages.length > 0) {
+        console.log(chatMessages);
+        const lastMessage = chatMessages[chatMessages.length - 1];
+        const notDuplicate = lastMessage.id !== socketContext.message.id;
+        if (notDuplicate) {
+          setChatMessages((prevMessages) => {
+            return [...prevMessages, socketContext.message];
+          });
+        }
+      } else {
+        setChatMessages([socketContext.message]);
+      }
+    }
+  }, [socketContext, chatMessages]);
 
   return (
     <div className="imessage">
       {chatMessages.map((elem) => {
         const isFromUser = authContext.state.username === elem.username;
         return (
-          <p key={uniqid()} className={isFromUser ? "from-me" : "from-them"}>
+          <p key={elem.id} className={isFromUser ? "from-me" : "from-them"}>
             <span className="message-header">{`${
               isFromUser ? "You" : elem.username
             } - ${elem.time}`}</span>
