@@ -1,6 +1,6 @@
 import { useState, useRef, Fragment, useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { host } from "../../utils/host";
+import { signin } from "../../modules/users";
 import { Form, Button, Alert } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -27,21 +27,7 @@ const SigninForm = (props) => {
     } else {
       const username = usernameInputRef.current.value;
       const password = passwordInputRef.current.value;
-
-      const response = await fetch(`${host}/signin`, {
-        method: "POST",
-        mode: "cors",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      })
-        .then((resp) => resp)
-        .catch((err) => console.log(err));
+      const response = await signin(username, password);
 
       if (response.status === 200) {
         const body = await response.json();

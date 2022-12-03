@@ -1,33 +1,23 @@
 import { useContext } from "react";
 import { Card } from "react-bootstrap";
-import { host } from "../../../utils/host";
+// import { host } from "../../../utils/host";
 import { AuthContext } from "../../../context/AuthContext";
 import { SocketContext } from "../../../context/SocketContext";
 import MessagesDisplay from "./MessagesDisplay/MessagesDisplay";
 import MessageForm from "./MessageForm/MessageForm";
+
+import { postMessage } from "../../../modules/messages";
 
 const Chatroom = ({ currentRoom }) => {
   const authContext = useContext(AuthContext);
   const socketContext = useContext(SocketContext);
 
   const chatMessageSubmitHandler = async (message) => {
-    const response = await fetch(`${host}/api/messages`, {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        author_id: authContext.state.id,
-        room: socketContext.room,
-        text_content: message,
-      }),
-    })
-      .then((resp) => resp)
-      .catch((err) => console.log(err));
+    const id = authContext.state.id;
+    const room = socketContext.room;
+    const respStatus = await postMessage(id, room, message);
 
-    if (response.status === 201) {
+    if (respStatus === 201) {
       socketContext.client.emit("new message", message);
     }
   };

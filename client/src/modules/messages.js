@@ -5,6 +5,8 @@ import uniqid from "uniqid";
 
 dayjs.extend(LocalizedFormat);
 
+// this has a side effect in setChatMessages because useEffects should not be async
+// so everything this function does async needs to be self-contained
 export const getMessages = async (room, setChatMessages) => {
   const response = await fetch(`${host}/api/messages?room=${room}`, {
     method: "GET",
@@ -28,4 +30,22 @@ export const getMessages = async (room, setChatMessages) => {
   }
 };
 
-export const addNewMessage = () => {};
+export const postMessage = async (authorId, room, message) => {
+  const response = await fetch(`${host}/api/messages`, {
+    method: "POST",
+    mode: "cors",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      author_id: authorId,
+      room,
+      text_content: message,
+    }),
+  })
+    .then((resp) => resp)
+    .catch((err) => console.log(err));
+
+  return response.status;
+};

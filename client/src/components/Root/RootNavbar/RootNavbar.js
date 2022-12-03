@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { host } from "../../../utils/host";
-import { AuthContext } from "../../../context/AuthContext";
-import { SocketContext } from "../../../context/SocketContext";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthContext";
+import { SocketContext } from "../../../context/SocketContext";
+import { signout } from "../../../modules/users";
 import BrandLogo from "../../../assets/chat-app-logo.png";
 
 const RootNavbar = () => {
@@ -11,18 +11,9 @@ const RootNavbar = () => {
   const socketContext = useContext(SocketContext);
 
   const signOutHandler = async () => {
-    const response = await fetch(`${host}/signout`, {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((resp) => resp)
-      .catch((err) => console.log(err));
+    const respStatus = await signout();
 
-    if (response.status === 200) {
+    if (respStatus === 200) {
       authContext.signout();
       socketContext.disconnect();
       socketContext.reset();

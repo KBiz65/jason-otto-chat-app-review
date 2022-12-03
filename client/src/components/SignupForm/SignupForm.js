@@ -1,8 +1,8 @@
 import { Fragment, useState, useContext, useRef } from "react";
 import { Navigate } from "react-router-dom";
-import { host } from "../../utils/host";
 import { Form, Button, Alert } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
+import { createUser } from "../../modules/users";
 
 const SignupForm = (props) => {
   const authContext = useContext(AuthContext);
@@ -32,22 +32,7 @@ const SignupForm = (props) => {
       const username = usernameInputRef.current.value;
       const email = emailInputRef.current.value;
       const password = passwordInputRef.current.value;
-
-      const response = await fetch(`${host}/api/users`, {
-        method: "POST",
-        mode: "cors",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          email,
-          password,
-        }),
-      })
-        .then((resp) => resp)
-        .catch((err) => err);
+      const response = await createUser(username, email, password);
 
       if (response.status === 201) {
         const { id } = await response.json();
