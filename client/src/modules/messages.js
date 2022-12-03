@@ -20,7 +20,7 @@ export const getMessages = async (room, setChatMessages) => {
         id: uniqid(),
         username: elem.username,
         message: elem.text_content,
-        time: formatToLocalTime(elem.created_on),
+        timestamp: formatToLocalTime(elem.created_on),
       };
     });
     setChatMessages(oldMessages);

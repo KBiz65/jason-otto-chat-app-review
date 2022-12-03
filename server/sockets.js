@@ -19,20 +19,18 @@ io.on("connection", (socket) => {
 
     const user = getUser(socket.id);
     if (user) {
-      updateUser({ ...user, room });
+      socket.leave(user.room); // leave current room
+      // inform users of room that was just left
       socket
         .to(user.room)
         .emit(
           "user status",
           formatMessage("ChatBot", `${user.username} has left the chat.`)
         );
-
-      // inform users of room that was just left
       io.in(user.room).emit("roomUsers", {
         users: getRoomUsers(user.room),
       });
-
-      socket.leave(user.room);
+      updateUser({ ...user, room });
     } else {
       addUser(socket.id, username, room);
     }
@@ -65,9 +63,12 @@ io.on("connection", (socket) => {
   });
 
   // broadcast any messages to users in the room
-  socket.on("new message", (message) => {
+  socket.on("new message", ({ message, timestamp }) => {
     const { username, room } = getUser(socket.id);
-    io.in(room).emit("new message", formatMessage(username, message));
+    io.in(room).emit(
+      "new message",
+      formatMessage(username, message, timestamp)
+    );
   });
 
   // on any disconnect
@@ -79,7 +80,6 @@ io.on("connection", (socket) => {
         "user status",
         formatMessage("ChatBot", `${user.username} has left the chat.`)
       );
-
       io.in(user.room).emit("roomUsers", { users: getRoomUsers(user.room) });
     }
   });

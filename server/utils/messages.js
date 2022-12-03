@@ -3,10 +3,10 @@ const localizedFormat = require("dayjs/plugin/localizedFormat");
 
 dayjs.extend(localizedFormat);
 
-module.exports.formatMessage = (username, message) => {
+module.exports.formatMessage = (username, message, timestamp) => {
   return {
     username,
     message,
-    time: dayjs().format("ll LT"),
+    timestamp: dayjs(timestamp).format("ll LT"),
   };
 };

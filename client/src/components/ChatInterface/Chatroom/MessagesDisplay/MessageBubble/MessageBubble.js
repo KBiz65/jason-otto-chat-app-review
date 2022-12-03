@@ -3,7 +3,7 @@ const MessageBubble = ({ isFromUser, message }) => {
     <p className={isFromUser ? "from-me" : "from-them"}>
       <span className="message-header">{`${
         isFromUser ? "You" : message.username
-      } - ${message.time}`}</span>
+      } - ${message.timestamp}`}</span>
       {message.message}
     </p>
   );

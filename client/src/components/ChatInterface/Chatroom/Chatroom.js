@@ -18,7 +18,7 @@ const Chatroom = ({ currentRoom }) => {
     const respStatus = await postMessage(id, room, message, timestamp);
 
     if (respStatus === 201) {
-      socketContext.client.emit("new message", message);
+      socketContext.client.emit("new message", { message, timestamp });
     }
   };
 
