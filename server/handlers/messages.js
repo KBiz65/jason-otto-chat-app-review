@@ -15,13 +15,13 @@ module.exports.getAllMessages = async (req, res) => {
 };
 
 module.exports.createNewMessage = async (req, res) => {
-  const { author_id, room, text_content } = req.body;
+  const { author_id, room, text_content, timestamp } = req.body;
 
   const params = {
     author_id,
     room,
     text_content,
-    timestamp: new Date(),
+    timestamp,
   };
   const query = preparedStmts.createNewMessage(params);
 

@@ -51,8 +51,8 @@ module.exports.validateQuery = (req, res, next) => {
 };
 
 module.exports.validateMessage = (req, res, next) => {
-  const { author_id, room, text_content } = req.body;
-  if (author_id && room && text_content) {
+  const { author_id, room, text_content, timestamp } = req.body;
+  if (author_id && room && text_content && timestamp) {
     next();
     return;
   }

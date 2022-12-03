@@ -1,12 +1,9 @@
 import { host } from "../utils/host";
-import * as dayjs from "dayjs";
-import * as LocalizedFormat from "dayjs/plugin/localizedFormat";
 import uniqid from "uniqid";
-
-dayjs.extend(LocalizedFormat);
+import { formatToLocalTime } from "../utils/date";
 
 // this has a side effect in setChatMessages because useEffects should not be async
-// so everything this function does async needs to be self-contained
+// so everything this function does needs to be self-contained
 export const getMessages = async (room, setChatMessages) => {
   const response = await fetch(`${host}/api/messages?room=${room}`, {
     method: "GET",
@@ -17,20 +14,20 @@ export const getMessages = async (room, setChatMessages) => {
     .catch((err) => console.log(err));
 
   if (response.status === 200) {
-    let { data } = await response.json();
+    const { data } = await response.json();
     const oldMessages = data.map((elem) => {
       return {
         id: uniqid(),
         username: elem.username,
         message: elem.text_content,
-        time: dayjs(elem.created_on).format("ll LT"),
+        time: formatToLocalTime(elem.created_on),
       };
     });
     setChatMessages(oldMessages);
   }
 };
 
-export const postMessage = async (authorId, room, message) => {
+export const postMessage = async (authorId, room, message, timestamp) => {
   const response = await fetch(`${host}/api/messages`, {
     method: "POST",
     mode: "cors",
@@ -42,6 +39,7 @@ export const postMessage = async (authorId, room, message) => {
       author_id: authorId,
       room,
       text_content: message,
+      timestamp,
     }),
   })
     .then((resp) => resp)

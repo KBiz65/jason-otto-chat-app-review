@@ -1,12 +1,11 @@
 import { useContext } from "react";
 import { Card } from "react-bootstrap";
-// import { host } from "../../../utils/host";
 import { AuthContext } from "../../../context/AuthContext";
 import { SocketContext } from "../../../context/SocketContext";
+import { getUTCDate } from "../../../utils/date";
+import { postMessage } from "../../../modules/messages";
 import MessagesDisplay from "./MessagesDisplay/MessagesDisplay";
 import MessageForm from "./MessageForm/MessageForm";
-
-import { postMessage } from "../../../modules/messages";
 
 const Chatroom = ({ currentRoom }) => {
   const authContext = useContext(AuthContext);
@@ -15,7 +14,8 @@ const Chatroom = ({ currentRoom }) => {
   const chatMessageSubmitHandler = async (message) => {
     const id = authContext.state.id;
     const room = socketContext.room;
-    const respStatus = await postMessage(id, room, message);
+    const timestamp = getUTCDate();
+    const respStatus = await postMessage(id, room, message, timestamp);
 
     if (respStatus === 201) {
       socketContext.client.emit("new message", message);
