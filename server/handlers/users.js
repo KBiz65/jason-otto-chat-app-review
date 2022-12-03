@@ -23,7 +23,11 @@ module.exports.createNewUser = async (req, res) => {
 
     res.statusCode = 201;
     res.cookie("auth-token", token, { httpOnly: true });
-    res.json({ message: "201 | Created" });
+    res.json({
+      message: "201 | Created",
+      id: user.id,
+      username: user.username,
+    });
   } catch (err) {
     let conflict;
 

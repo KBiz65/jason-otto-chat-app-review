@@ -3,7 +3,7 @@ module.exports.validateFormData = (req, res, next) => {
 
   if (username && email && password) {
     const isValidUsername = /^\w{6,32}$/.test(username);
-    const isExactlyFourDigits = /^\d{4}$/.test(parseInt(password));
+    const isExactlyFourDigits = /^\d{4}$/.test(password);
     if (isValidUsername && isExactlyFourDigits) {
       next();
       return;
