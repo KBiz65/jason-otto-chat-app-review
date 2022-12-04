@@ -1,13 +1,13 @@
 import { React, Fragment, useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import uniqid from "uniqid";
 import { state, AuthContext } from "../../context/AuthContext";
 import { socket, SocketContext } from "../../context/SocketContext";
+import { formatToLocalTime } from "../../utils/date";
 import RootNavbar from "../../components/Root/RootNavbar/RootNavbar";
 import RootMain from "../../components/Root/RootMain/RootMain";
 import RootFooter from "../../components/Root/RootFooter/RootFooter";
-import uniqid from "uniqid";
-
 import "./Root.css";
 
 const Root = () => {
@@ -112,6 +112,7 @@ const Root = () => {
             ...prevState,
             message: {
               ...message,
+              timestamp: formatToLocalTime(message.timestamp),
               id: uniqid(),
             },
           };
@@ -124,6 +125,7 @@ const Root = () => {
             ...prevState,
             message: {
               ...message,
+              timestamp: formatToLocalTime(message.timestamp),
               id: uniqid(),
             },
           };
