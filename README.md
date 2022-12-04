@@ -25,7 +25,11 @@ I plan to continue to build on this project and I enjoyed the challenge of worki
 2. Create a .env file in the root of the project
 3. In the .env file should be the DB connection string, CONN_STRING, and the JSON Web Token secret, JWT_SECRET. 
  
-  * Feel free to change the keys to whatever you like, but remember to update the keys wherever they are referenced in the app.
+  * Feel free to change the keys to whatever you like, but remember to update the keys wherever they are referenced in the app:
+    
+    * auth.js
+    
+    * db.js
     
   * If deploying to a service like Heroku or Render, don't forget to set environment variables with the same values.
 
