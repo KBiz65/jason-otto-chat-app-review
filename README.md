@@ -21,7 +21,7 @@ In the client I used the useContext hook as my app has state that many component
 I plan to continue to build on this project and I enjoyed the challenge of working on it.
 
 ## Installation
-1. Create your own Postgres database by running the SQL statements in sql_stmts.txt
+1. Create your own Postgres database by running the SQL statements in db_init.txt
 2. Create a .env file in the root of the project
 3. In the .env file should be the DB connection string, CONN_STRING, and the JSON Web Token secret, JWT_SECRET. 
  
