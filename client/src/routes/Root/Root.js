@@ -1,13 +1,11 @@
 import { React, Fragment, useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import uniqid from "uniqid";
 import { state, AuthContext } from "../../context/AuthContext";
 import { socket, SocketContext } from "../../context/SocketContext";
-import { formatToLocalTime } from "../../utils/date";
-import RootNavbar from "../../components/Root/RootNavbar/RootNavbar";
-import RootMain from "../../components/Root/RootMain/RootMain";
-import RootFooter from "../../components/Root/RootFooter/RootFooter";
+import RootNavbar from "../../components/RootNavbar/RootNavbar";
+import RootMain from "../../components/RootMain/RootMain";
+import RootFooter from "../../components/RootFooter/RootFooter";
 import "./Root.css";
 
 const Root = () => {
@@ -39,38 +37,6 @@ const Root = () => {
       };
     });
   };
-  socket.setRoom = (room) => {
-    setSocketContext((prevState) => {
-      return {
-        ...prevState,
-        room,
-        roomChanged: true,
-      };
-    });
-  };
-  socket.toggleRoomChanged = () => {
-    setSocketContext((prevState) => {
-      return {
-        ...prevState,
-        roomChanged: false,
-        // message: null,
-      };
-    });
-  };
-  socket.reset = () => {
-    setSocketContext((prevState) => {
-      return {
-        ...prevState,
-        client: null,
-        message: null,
-        users: null,
-        // usersUpdate: false,
-        room: null,
-        roomChanged: false,
-      };
-    });
-  };
-
   const [authContext, setAuthContext] = useState({ state, signin, signout });
   const [socketContext, setSocketContext] = useState(socket);
   const defaultRoom = "1";
@@ -83,7 +49,10 @@ const Root = () => {
     }
 
     if (authContext.state.isSignedIn && !socketContext.client) {
+      socketContext.setStateFunct(setSocketContext);
       socketContext.connect();
+      socketContext.initEventHandlers();
+
       socketContext.client.emit("joinRoom", {
         username: authContext.state.username,
         room: defaultRoom,
@@ -95,41 +64,6 @@ const Root = () => {
           room: defaultRoom,
           roomChanged: true,
         };
-      });
-
-      socketContext.client.on("roomUsers", (data) => {
-        setSocketContext((prevState) => {
-          return {
-            ...prevState,
-            users: data.users,
-          };
-        });
-      });
-
-      socketContext.client.on("user status", (message) => {
-        setSocketContext((prevState) => {
-          return {
-            ...prevState,
-            message: {
-              ...message,
-              timestamp: formatToLocalTime(message.timestamp),
-              id: uniqid(),
-            },
-          };
-        });
-      });
-
-      socketContext.client.on("new message", (message) => {
-        setSocketContext((prevState) => {
-          return {
-            ...prevState,
-            message: {
-              ...message,
-              timestamp: formatToLocalTime(message.timestamp),
-              id: uniqid(),
-            },
-          };
-        });
       });
     }
 

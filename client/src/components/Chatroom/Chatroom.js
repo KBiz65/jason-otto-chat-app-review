@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { Card } from "react-bootstrap";
-import { AuthContext } from "../../../context/AuthContext";
-import { SocketContext } from "../../../context/SocketContext";
-import { getUTCDate } from "../../../utils/date";
-import { postMessage } from "../../../modules/messages";
-import MessagesDisplay from "./MessagesDisplay/MessagesDisplay";
-import MessageForm from "./MessageForm/MessageForm";
+import { AuthContext } from "../../context/AuthContext";
+import { SocketContext } from "../../context/SocketContext";
+import { getUTCDate } from "../../utils/date";
+import { postMessage } from "../../modules/messages";
+import MessagesDisplay from "../MessagesDisplay/MessagesDisplay";
+import MessageForm from "../MessageForm/MessageForm";
 
 const Chatroom = ({ currentRoom }) => {
   const authContext = useContext(AuthContext);

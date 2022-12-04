@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
-import Chatroom from "./Chatroom/Chatroom";
-import Sidebar from "./Sidebar/Sidebar";
+import Chatroom from "../Chatroom/Chatroom";
+import Sidebar from "../Sidebar/Sidebar";
 
 const ChatInterface = () => {
   const socketContext = useContext(SocketContext);

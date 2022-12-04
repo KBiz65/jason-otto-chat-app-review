@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import uniqid from "uniqid";
-import { SocketContext } from "../../../context/SocketContext";
+import { SocketContext } from "../../context/SocketContext";
 import { Card, ListGroup, Dropdown, DropdownButton } from "react-bootstrap";
 
 const Sidebar = ({ onRoomChange, currentRoom }) => {

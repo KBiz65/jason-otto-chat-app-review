@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import uniqid from "uniqid";
-import { AuthContext } from "../../../../context/AuthContext";
-import { SocketContext } from "../../../../context/SocketContext";
-import { getMessages } from "../../../../modules/messages";
-import MessageBubble from "./MessageBubble/MessageBubble";
+import { AuthContext } from "../../context/AuthContext";
+import { SocketContext } from "../../context/SocketContext";
+import { getMessages } from "../../modules/messages";
+import MessageBubble from "../MessageBubble/MessageBubble";
 import "./MessagesDisplay.css";
 
 const MessagesDisplay = () => {
