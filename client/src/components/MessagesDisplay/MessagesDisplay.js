@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import uniqid from "uniqid";
 import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
@@ -10,11 +10,19 @@ const MessagesDisplay = () => {
   const authContext = useContext(AuthContext);
   const socketContext = useContext(SocketContext);
   const [chatMessages, setChatMessages] = useState([]);
+  const messageDisplay = document.querySelector(".imessage");
+
+  const scrollBottom = () => {
+    setTimeout(() => {
+      messageDisplay.scrollTop = messageDisplay.scrollHeight;
+    }, 250);
+  };
 
   useEffect(() => {
     if (socketContext.roomChanged) {
       socketContext.toggleRoomChanged();
-      getMessages(socketContext.room, setChatMessages);
+      getMessages(socketContext.room, setChatMessages, messageDisplay);
+      scrollBottom();
     }
   }, [socketContext]);
 
@@ -31,6 +39,7 @@ const MessagesDisplay = () => {
       } else {
         setChatMessages([socketContext.message]);
       }
+      scrollBottom();
     }
   }, [socketContext, chatMessages]);
 
@@ -46,6 +55,7 @@ const MessagesDisplay = () => {
           />
         );
       })}
+      <div className="anchor"></div>
     </div>
   );
 };

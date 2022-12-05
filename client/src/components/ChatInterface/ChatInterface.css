@@ -1,0 +1,5 @@
+@media screen and (min-width: 768px) {
+  .container.chat-interface {
+    margin-bottom: 40px;
+  }
+}

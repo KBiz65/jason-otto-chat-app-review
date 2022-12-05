@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { SocketContext } from "../../context/SocketContext";
 import Chatroom from "../Chatroom/Chatroom";
 import Sidebar from "../Sidebar/Sidebar";
+import "./ChatInterface.css";
 
 const ChatInterface = () => {
   const socketContext = useContext(SocketContext);
@@ -20,7 +21,7 @@ const ChatInterface = () => {
   };
 
   return (
-    <Container>
+    <Container className="chat-interface">
       <Row>
         <Col md={4}>
           <Sidebar
