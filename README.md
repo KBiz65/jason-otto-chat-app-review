@@ -10,6 +10,8 @@ Try it [here](https://chat-app-service.onrender.com)
 
 <br>
 
+![Chat App Demo](https://github.com/j-otterbox/chat-app/blob/main/chat-app-demo.gif "Chat App in use")
+
 ## Summary
 
 This is a fullstack application I built for SDMM for users to chat with others using the Sockets.IO library to pass messages between the client and server. There are several different channels and server generated notifications for different events such as greetings and users joining/leaving channels. 
