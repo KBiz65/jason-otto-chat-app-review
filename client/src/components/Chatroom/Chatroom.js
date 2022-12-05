@@ -23,7 +23,7 @@ const Chatroom = ({ currentRoom }) => {
   };
 
   return (
-    <Card>
+    <Card bg="dark" text="light">
       <Card.Header className="text-center">
         <h3>{`Chatroom #${currentRoom}`}</h3>
       </Card.Header>

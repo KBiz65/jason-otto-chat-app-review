@@ -1,5 +1,6 @@
 .root__footer {
   margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.55);
   background: #212529;
   color: #fff;
   text-align: center;

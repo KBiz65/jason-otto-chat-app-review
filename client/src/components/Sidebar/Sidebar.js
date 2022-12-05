@@ -11,11 +11,12 @@ const Sidebar = ({ onRoomChange, currentRoom }) => {
   };
 
   return (
-    <Card>
+    <Card bg="dark" text="light">
       <Card.Header className="text-center">
         <h3>Chat Rooms</h3>
         <DropdownButton
           title={`Chatroom #${currentRoom}`}
+          menuVariant="dark"
           onSelect={chatroomSelectHandler}
         >
           <Dropdown.Item eventKey={"1"}>Chatroom #1</Dropdown.Item>
