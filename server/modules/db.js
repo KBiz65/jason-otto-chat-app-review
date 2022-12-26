@@ -1,12 +1,17 @@
 const { Client } = require("pg");
 const connectionString = process.env.CONN_STRING;
 
-const client = new Client({
+const config = {
   connectionString,
-  ssl: {
+};
+
+if (process.env.ENV === 'production') {
+  config.ssl = {
     rejectUnauthorized: false,
-  },
-});
+  };
+};
+
+const client = new Client(config);
 client.connect();
 module.exports.client = client;
 
